@@ -4,9 +4,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 
-#pragma warning disable 8618
-#pragma warning disable 8603
-#pragma warning disable CS0649
+#pragma warning disable
 
 namespace OpenGL
 {
