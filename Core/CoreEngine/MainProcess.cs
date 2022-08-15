@@ -36,6 +36,16 @@ namespace CoreEngine {
 
             Import(Glfw.GetProcAddress); 
 
+            Glfw.SetWindowSizeCallback(window, sizeCallabck);
+
+        }
+
+        //Callbacks
+
+        private void sizeCallabck(Window window, int width, int height){
+            this.width = width;
+            this.height = height;
+            glViewport(0, 0, width, height);
         }
 
     }

@@ -4,5 +4,6 @@ namespace Engine {
     interface Behaviour {
         void Start(){}
         void Update(){}
+        void LateUpdate(){}
     }
 }

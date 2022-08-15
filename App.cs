@@ -15,6 +15,7 @@ namespace App {
             mainProcess.Init();
 
             Shader shader = new Shader("", "");
+            
         }
     }
 }
