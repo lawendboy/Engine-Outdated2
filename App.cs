@@ -5,7 +5,7 @@ using Engine;
 namespace App {
     class App {
         private static void Main(string[] args){
-            
+
             MainProcess mainProcess = new MainProcess();
 
             mainProcess.width = 600;
@@ -14,7 +14,7 @@ namespace App {
 
             mainProcess.Init();
 
-            Shader shader = new Shader("", "");
+            // Shader shader = new Shader("", "");
             
         }
     }
