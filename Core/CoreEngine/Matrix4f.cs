@@ -2,13 +2,34 @@ using Engine;
 
 namespace CoreEngine {
     struct Matrix4f {
-        private float[] values = new float[16];
+        public readonly float[] values = new float[16];
         
         public Matrix4f(){ }
+
+        public static Matrix4f identity = new Matrix4f(new float[]{
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+        });
 
         public Matrix4f(float[] values){
             this.values = values;
         }
+
+        public static Matrix4f translationMatrix(Vector3 vector) => new Matrix4f(new float[]{
+            1, 0, 0, vector.x,
+            0, 1, 0, vector.y,
+            0, 0, 1, vector.z,
+            0, 0, 0, 1
+        });
+
+        public static Matrix4f scalarMatrix(Vector3 vector) => new Matrix4f(new float[]{
+            vector.x, 0, 0, 0,
+            0, vector.y, 0, 0,
+            0, 0, vector.z, 0,
+            0, 0, 0, 1
+        });
 
         public static Matrix4f operator * (Matrix4f left, Matrix4f right){
             float[] output = new float[16];
