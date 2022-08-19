@@ -1,4 +1,4 @@
-namespace Engine {
+namespace CoreEngine {
     public struct Vector3 {
         
         private float[] values = new float[3];
@@ -38,6 +38,14 @@ namespace Engine {
         }
         public static float dotProduct(Vector3 left, Vector3 right){
             return left.x * right.x + left.y * right.y + left.z * right.z;
+        }
+
+        public static Vector3 operator * (Vector3 left, float right){
+            return new Vector3(left.x * right, left.y * right, left.z * right);
+        }
+
+        public static Vector3 operator * (float left, Vector3 right){
+            return new Vector3(right.x * left, right.y * left, right.z * left);
         }
     }
 }

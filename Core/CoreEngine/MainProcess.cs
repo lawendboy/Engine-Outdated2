@@ -9,16 +9,16 @@ using Engine;
 
 namespace CoreEngine {
 
-    class MainProcess {
+    static class MainProcess {
 
-        private GLFW.Window window;
+        public static GLFW.Window window;
 
-        public int width;
-        public int height;
+        public static int width = 600;
+        public static int height = 800;
 
-        public string title = "";
+        public static string title = "Title";
 
-        public void Init() {
+        public static void Init() {
             
             Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
             Glfw.WindowHint(Hint.ContextVersionMajor, 3);
@@ -42,10 +42,14 @@ namespace CoreEngine {
 
         //Callbacks
 
-        private void sizeCallabck(Window window, int width, int height){
-            this.width = width;
-            this.height = height;
+        private static void sizeCallabck(Window window, int width, int height){
+            MainProcess.width = width;
+            MainProcess.height = height;
             glViewport(0, 0, width, height);
+        }
+
+        public static bool windowShouldClose(){
+            return Glfw.WindowShouldClose(window);
         }
 
     }

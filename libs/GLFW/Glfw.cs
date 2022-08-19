@@ -1299,7 +1299,7 @@ namespace GLFW
         /// <param name="key">The key to query.</param>
         /// <returns>Either <see cref="InputState.Press" /> or <see cref="InputState.Release" />.</returns>
         [DllImport(LIBRARY, EntryPoint = "glfwGetKey", CallingConvention = CallingConvention.Cdecl)]
-        public static extern InputState GetKey(Window window, Keys key);
+        public static extern InputState GetKey(Window window, int key);
 
         [DllImport(LIBRARY, EntryPoint = "glfwGetKeyName", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr GetKeyNameInternal(Keys key, int scanCode);

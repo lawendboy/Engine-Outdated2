@@ -1,4 +1,4 @@
-namespace Engine {
+namespace CoreEngine {
     public struct ColorRGBA {
         private float[] values = new float[4];
 

@@ -1,4 +1,4 @@
-namespace Engine {
+namespace CoreEngine {
     public struct Vector4 {
         
         private float[] values = new float[4];
@@ -31,5 +31,13 @@ namespace Engine {
         public void Normalize() {
             values = normalized.values;
         }
+
+        public static Vector4 operator * (Vector4 left, float right){
+            return new Vector4(left.x * right, left.y * right, left.z * right, left.w * right );
+        }
+        public static Vector4 operator * (float left, Vector4 right){
+            return new Vector4(right.x * left, right.y * left, right.z * left, right.w * left );
+        }
+
     }
 }
