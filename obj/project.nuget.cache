@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MawRty7E6l5d8w9M+nl5squ7B31fP/myP93Is9DmJLSaUxAY27Miq6Nif2+3blN/oWRrpBYmVAN0sERqIxzLlA==",
+  "dgSpecHash": "hv3SvC+Het6T8vwdNYu2qsDE0auAOBsUNRy5ceiZyvaOeJ0eeIUQwjA/tiRCXlxi2KcdUozjnqa+8y4oovnwVw==",
   "success": true,
-  "projectFilePath": "/Users/michal/Desktop/Engine/Engine.csproj",
+  "projectFilePath": "G:\\Engine\\Engine.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

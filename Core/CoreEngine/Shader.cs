@@ -1,3 +1,4 @@
+using Engine;
 using GLFW;
 using static OpenGL.GL;
 
@@ -42,5 +43,6 @@ namespace CoreEngine {
         public void Use(){
             glUseProgram(program);
         }
+
     }
 }

@@ -8,24 +8,26 @@
     "net6.0": []
   },
   "packageFolders": {
-    "/Users/michal/.nuget/packages/": {}
+    "C:\\Users\\micha\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/michal/Desktop/Engine/Engine.csproj",
+      "projectUniqueName": "G:\\Engine\\Engine.csproj",
       "projectName": "Engine",
-      "projectPath": "/Users/michal/Desktop/Engine/Engine.csproj",
-      "packagesPath": "/Users/michal/.nuget/packages/",
-      "outputPath": "/Users/michal/Desktop/Engine/obj/",
+      "projectPath": "G:\\Engine\\Engine.csproj",
+      "packagesPath": "C:\\Users\\micha\\.nuget\\packages\\",
+      "outputPath": "G:\\Engine\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/michal/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\micha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -58,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.302/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

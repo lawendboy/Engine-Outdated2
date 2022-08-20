@@ -31,6 +31,13 @@ namespace CoreEngine {
             0, 0, 0, 1
         });
 
+        public static Matrix4f rotationMatrix(Quaternion quat) => new Matrix4f(new float[]{
+            1-2*quat.y*quat.y-2*quat.z*quat.z, 2*quat.x*quat.y - 2*quat.w*quat.z, 2*quat.x*quat.z + 2*quat.w*quat.y, 0,
+            2*quat.x*quat.y + 2*quat.w*quat.z, 1-2*quat.x*quat.x-2*quat.z*quat.z, 2*quat.y*quat.z-2*quat.w*quat.x, 0,
+            2*quat.x*quat.z-2*quat.w*quat.y, 2*quat.y*quat.z+2*quat.w*quat.x, 1-2*quat.x*quat.x-2*quat.y*quat.y, 0,
+            0, 0, 0, 1
+        });
+
         public static Matrix4f projection(float fieldOfView, float aspect, float zNear, float zFar){
             float[] output = new float[16];
             
@@ -44,6 +51,7 @@ namespace CoreEngine {
 
             return new Matrix4f(output);
         }
+
 
         public static Matrix4f operator * (Matrix4f left, Matrix4f right){
             float[] output = new float[16];
