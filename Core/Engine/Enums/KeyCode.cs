@@ -1,4 +1,4 @@
-namespace CoreEngine {
+namespace Engine {
     enum KeyCode : int {
         Unknown = -1,
         Space = 32,

@@ -1,3 +1,4 @@
+using Engine;
 namespace CoreEngine{
     static class Input {
         // public static bool GetKeyCode(KeyCode key){

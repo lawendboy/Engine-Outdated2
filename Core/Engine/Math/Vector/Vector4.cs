@@ -1,4 +1,4 @@
-namespace CoreEngine {
+namespace Engine {
     public struct Vector4 {
         
         private float[] values = new float[4];

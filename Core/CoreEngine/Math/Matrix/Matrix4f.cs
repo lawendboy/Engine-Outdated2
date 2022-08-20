@@ -1,3 +1,5 @@
+using Engine;
+
 namespace CoreEngine {
     struct Matrix4f {
         public readonly float[] values = new float[16];
@@ -28,6 +30,20 @@ namespace CoreEngine {
             0, 0, vector.z, 0,
             0, 0, 0, 1
         });
+
+        public static Matrix4f projection(float fieldOfView, float aspect, float zNear, float zFar){
+            float[] output = new float[16];
+            
+            float scale = 1 / MathF.Tan(fieldOfView * 0.5f * MathF.PI / 180); 
+            output[0] = scale;
+            output[5] = scale;
+            output[10] = zFar / (zFar - zNear);
+            output[11] = -zFar * zNear / (zFar - zNear);
+            output[14] = -1;
+            output[15] = 0;
+
+            return new Matrix4f(output);
+        }
 
         public static Matrix4f operator * (Matrix4f left, Matrix4f right){
             float[] output = new float[16];
