@@ -12,12 +12,11 @@ namespace App {
             // int behaviourCount = behavioursList.Count;
             // int behaviourIterator = 0;
 
-            Quaternion a = new Quaternion(18, 49, 19, 64); // 0.2123977, 0.5781937, 0.2241976, 0.7551918
-            Quaternion b = new Quaternion(64, 21, 47, 72); // 0.5859489, 0.1922645, 0.4303062, 0.6591925
-            Quaternion result = a * b;
+            Quaternion result = Quaternion.eulerAngles(90, 90, 0);
 
             Console.WriteLine(
-                $"Result: w: {result.w} x: {result.x} , y: {result.y} , z: {result.z}"
+                // $"Result: w: {result.w} x: {result.x} y: {result.y} z: {result.z}"
+                $"Result: x: {result.x} y: {result.y} z: {result.z} w: {result.w}"
             );
 
             // while(!MainProcess.windowShouldClose()){

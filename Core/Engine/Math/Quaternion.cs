@@ -22,8 +22,38 @@ namespace Engine {
             values[3] *= invLen;
         }
 
-        public static Quaternion eulerAngles(){
-            return new Quaternion(); // DO ZROBIENIA
+        public static Quaternion eulerAngles(float x, float y, float z){ //yaw (Z), pitch (Y), roll (X)
+            float cy = MathF.Cos(z * 0.5f);
+            float sy = MathF.Sin(z * 0.5f);
+            float cp = MathF.Cos(y * 0.5f);
+            float sp = MathF.Sin(y * 0.5f);
+            float cr = MathF.Cos(x * 0.5f);
+            float sr = MathF.Sin(x * 0.5f);
+
+            
+            return new Quaternion(
+                sr * cp * cy - cr * sp * sy,
+                cr * sp * cy + sr * cp * sy, 
+                cr * cp * sy - sr * sp * cy, 
+                cr * cp * cy + sr * sp * sy
+            );
+        }
+
+        public static Quaternion eulerAngles(Vector3 eulerAngles){ //yaw (Z), pitch (Y), roll (X)
+            float cy = MathF.Cos(eulerAngles.z * 0.5f);
+            float sy = MathF.Sin(eulerAngles.z * 0.5f);
+            float cp = MathF.Cos(eulerAngles.y * 0.5f);
+            float sp = MathF.Sin(eulerAngles.y * 0.5f);
+            float cr = MathF.Cos(eulerAngles.x * 0.5f);
+            float sr = MathF.Sin(eulerAngles.x * 0.5f);
+
+            
+            return new Quaternion(
+                sr * cp * cy + cr * sp * sy,
+                cr * sp * cy - sr * cp * sy, 
+                cr * cp * sy + sr * sp * cy, 
+                cr * cp * cy - sr * sp * sy
+            );
         }
 
         public static Quaternion operator + (Quaternion left, Quaternion right){
