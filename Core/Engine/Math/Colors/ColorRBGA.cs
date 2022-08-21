@@ -19,6 +19,8 @@ namespace CoreEngine {
             g = 0;
             a = 0;
         }
+
+        public static implicit operator ColorRGB(ColorRGBA col) => new ColorRGB(col.r, col.g, col.b);
         // [Obsolete] Edytor musi to zrobić
         // public ColorRGBA(int red, int green, int blue, int alpha){
         //     r = red / 255;

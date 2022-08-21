@@ -24,7 +24,7 @@ namespace Engine {
 
         public float length { get { return MathF.Sqrt(x * x + y * y + z * z + w * w); } }
 
-        public Vector4 normalized { get {float len = length; return new Vector4(x / len, y / len, z / len, w / len); }}
+        public Vector4 normalized { get {float len = 1.0f / length; return new Vector4(x * len, y * len, z * len, w * len); }}
 
         public float[] glVal { get { return values; } }
 
@@ -38,6 +38,13 @@ namespace Engine {
         public static Vector4 operator * (float left, Vector4 right){
             return new Vector4(right.x * left, right.y * left, right.z * left, right.w * left );
         }
+
+        public static Vector4 operator + (Vector4 left, Vector4 right){
+            return new Vector4(left.x + right.x, left.y + right.y, left.z + right.z, left.w + right.w);
+        }
+
+        public static implicit operator Vector3(Vector4 vec) => new Vector3(vec.x, vec.y, vec.z);
+        public static implicit operator Vector2(Vector4 vec) => new Vector2(vec.x, vec.y);
 
     }
 }
