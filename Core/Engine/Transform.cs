@@ -7,7 +7,9 @@ namespace Engine {
         public Vector3 scale;
 
         public Transform(){
-            
+            position = new Vector3(0, 0, 0);
+            rotation = new Quaternion(0, 0, 0, 0);
+            scale = new Vector3(0, 0, 0);
         }
 
         public Vector3 forward => new Vector3(2 * (rotation.x * rotation.z + rotation.w * rotation.y), 2 * (rotation.y * rotation.z - rotation.w * rotation.x), -1 + 2 * (rotation.x * rotation.x + rotation.y * rotation.y));
