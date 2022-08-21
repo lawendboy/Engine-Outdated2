@@ -18,6 +18,10 @@ namespace CoreEngine {
 
         public static string title = "Title";
 
+        public static float fieldOfView = 60;
+
+        public static Matrix4f projectionMatrix;
+
         public static void Init() {
             
             Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
@@ -45,6 +49,7 @@ namespace CoreEngine {
         private static void sizeCallabck(Window window, int width, int height){
             MainProcess.width = width;
             MainProcess.height = height;
+            projectionMatrix = Matrix4f.projection(fieldOfView, width / (float) height, 0.1f, 1000.0f);
             glViewport(0, 0, width, height);
         }
 

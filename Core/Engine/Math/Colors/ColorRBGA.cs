@@ -20,6 +20,19 @@ namespace CoreEngine {
             a = 0;
         }
 
+        public void clmap(){
+            values[0] = Math.Clamp(values[0], 0f, 1f);
+            values[1] = Math.Clamp(values[1], 0f, 1f);
+            values[2] = Math.Clamp(values[2], 0f, 1f);
+            values[3] = Math.Clamp(values[3], 0f, 1f);
+        }
+
+        public static ColorRGBA operator * (ColorRGBA left, ColorRGBA right){
+            ColorRGBA output = new ColorRGBA(left.r * right.r, left.g * right.g, left.b * right.b, left.a * right.a);
+            output.clmap();
+            return output;
+        }
+
         public static implicit operator ColorRGB(ColorRGBA col) => new ColorRGB(col.r, col.g, col.b);
         // [Obsolete] Edytor musi to zrobić
         // public ColorRGBA(int red, int green, int blue, int alpha){

@@ -38,6 +38,27 @@ namespace CoreEngine {
             0, 0, 0, 1
         });
 
+        public static Matrix4f rotationMatrixAroundX(float angle) => new Matrix4f(new float[]{
+            1, 0, 0, 0,
+            0, MathF.Cos(angle), -MathF.Sin(angle), 0,
+            0, MathF.Sin(angle), MathF.Cos(angle), 0,
+            0, 0, 0, 1
+        });
+
+        public static Matrix4f rotationMatrixAroundY(float angle) => new Matrix4f(new float[]{
+            MathF.Cos(angle), 0, MathF.Sin(angle), 0,
+            0, 1, 0, 0,
+            -MathF.Sin(angle), 0, MathF.Cos(angle), 0,
+            0, 0, 0, 1
+        });
+
+        public static Matrix4f rotationMatrixAroundZ(float angle) => new Matrix4f(new float[]{
+            MathF.Cos(angle), -MathF.Sin(angle), 0, 0,
+            MathF.Sin(angle), MathF.Cos(angle), 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+        });
+
         public static Matrix4f projection(float fieldOfView, float aspect, float zNear, float zFar){
             float[] output = new float[16];
             

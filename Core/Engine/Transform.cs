@@ -1,7 +1,7 @@
 using CoreEngine;
 
 namespace Engine {
-    class Transform {
+    class Transform : Component {
         public Vector3 position;
         public Quaternion rotation;
         public Vector3 scale;
@@ -10,6 +10,12 @@ namespace Engine {
             position = new Vector3(0, 0, 0);
             rotation = new Quaternion(0, 0, 0, 0);
             scale = new Vector3(0, 0, 0);
+        }
+
+        public Transform(Vector3 position, Quaternion rotation, Vector3 scale){
+            this.position = position;
+            this.rotation = rotation;
+            this.scale = scale;
         }
 
         public Vector3 forward => new Vector3(2 * (rotation.x * rotation.z + rotation.w * rotation.y), 2 * (rotation.y * rotation.z - rotation.w * rotation.x), -1 + 2 * (rotation.x * rotation.x + rotation.y * rotation.y));

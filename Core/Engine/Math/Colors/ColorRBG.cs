@@ -17,6 +17,17 @@ namespace CoreEngine {
             g = 0;
         }
 
+        public void clmap(){
+            values[0] = Math.Clamp(values[0], 0f, 1f);
+            values[1] = Math.Clamp(values[1], 0f, 1f);
+            values[2] = Math.Clamp(values[2], 0f, 1f);
+        }
+
+        public static ColorRGB operator * (ColorRGB left, ColorRGB right){
+            ColorRGB output = new ColorRGB(left.r * right.r, left.g * right.g, left.b * right.b);
+            return output;
+        }
+
         public static implicit operator ColorRGBA(ColorRGB col) => new ColorRGBA(col.r, col.g, col.b, 1.0f);
         // [Obsolete] Edytor musi to zrobić
         // public ColorRGB(int red, int green, int blue){
