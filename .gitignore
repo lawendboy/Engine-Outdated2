@@ -3,3 +3,12 @@ bin/
 *.DS_Store
 #.vscode/launch.json
 #.vscode/tasks.json
+obj/Engine.csproj.nuget.dgspec.json
+obj/Engine.csproj.nuget.g.props
+obj/project.assets.json
+obj/project.nuget.cache
+obj/Debug/net6.0/Engine.assets.cache
+obj/Debug/net6.0/Engine.csproj.CoreCompileInputs.cache
+obj/Debug/net6.0/Engine.GeneratedMSBuildEditorConfig.editorconfig
+obj/Debug/net6.0/Engine.pdb
+obj/Debug/net6.0/Engine.genruntimeconfig.cache
