@@ -15,7 +15,7 @@ namespace Engine {
         private float norm => MathF.Sqrt(values[0] * values[0] + values[1] * values[1] + values[2] * values[2] + values[3] * values[3]);
         
         private void normalize(){
-            var invLen = 1 / norm;
+            var invLen = 1.0f / norm;
             values[0] *= invLen;
             values[1] *= invLen;
             values[2] *= invLen;
@@ -32,10 +32,10 @@ namespace Engine {
 
             
             return new Quaternion(
-                sr * cp * cy - cr * sp * sy,
-                cr * sp * cy + sr * cp * sy, 
-                cr * cp * sy - sr * sp * cy, 
-                cr * cp * cy + sr * sp * sy
+                sr * cp * cy + cr * sp * sy,
+                cr * sp * cy - sr * cp * sy, 
+                cr * cp * sy + sr * sp * cy, 
+                cr * cp * cy - sr * sp * sy
             );
         }
 
