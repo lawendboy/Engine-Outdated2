@@ -28,8 +28,8 @@ namespace GLFW
 #elif OSX
         public const string LIBRARY = "libglfw.3"; // mac
 #else
-        // public const string LIBRARY = "libglfw.3";
-        public const string LIBRARY = "glfw3";
+        public const string LIBRARY = "libglfw.3";
+        // public const string LIBRARY = "glfw3";
 #endif
 
         private static readonly ErrorCallback errorCallback = GlfwError;

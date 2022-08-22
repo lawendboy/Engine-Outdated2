@@ -1,5 +1,6 @@
 using Engine;
-namespace CoreEngine{
+using CoreEngine;
+namespace Engine{
     static class Input {
         // public static bool GetKeyCode(KeyCode key){
         //     return GLFW.Glfw.GetKey(MainProcess.window, 0);
