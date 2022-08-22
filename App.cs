@@ -19,7 +19,7 @@ namespace App {
 
                 GLFW.Glfw.SwapBuffers(MainProcess.window);
             }
-            
+
         }
 
     }
