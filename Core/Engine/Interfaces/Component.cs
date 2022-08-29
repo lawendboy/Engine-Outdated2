@@ -1,6 +1,7 @@
 namespace Engine {
     interface Component {
-        public void Update() {
+        public void Attach(in GameObject parent);
+        public void ComponentUpdate() {
 
         }
     }

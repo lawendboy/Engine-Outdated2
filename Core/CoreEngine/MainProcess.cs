@@ -21,9 +21,18 @@ namespace CoreEngine {
         public static float fieldOfView = 60;
 
         public static Matrix4f projectionMatrix;
+        public static Matrix4f viewMatrix;
+
+        private static Camera mainCamera = new Camera();
+
+        public static List<GameObject> sceneGameobjects = new List<GameObject>();
+        public static int sceneGameobjectsCount = 0;
+
+        private static int counter1 = 0;
+        private static int counter2 = 0;
 
         public static void Init() {
-            
+
             Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
             Glfw.WindowHint(Hint.ContextVersionMajor, 3);
             Glfw.WindowHint(Hint.ContextVersionMinor, 3);
@@ -44,6 +53,24 @@ namespace CoreEngine {
 
         }
 
+        public static void StartScene() {
+            //Sekcja ładowania sceny
+            //Ładowanie gameobjectow i ich komponentów
+
+            //Attaching components;
+            for(counter1 = 0; counter1 < sceneGameobjectsCount; counter1++){
+
+                for(counter2 = 0; counter2 < sceneGameobjects[counter1].components.Count; counter2++)
+                    sceneGameobjects[counter1].components[counter2].Attach(sceneGameobjects[counter1]);
+
+            }
+
+            SetMainCamera();
+
+            bool exitLoop = false;
+            while(!exitLoop) MainLoop();
+        }
+
         //Callbacks
 
         private static void sizeCallabck(Window window, int width, int height){
@@ -55,6 +82,61 @@ namespace CoreEngine {
 
         public static bool windowShouldClose(){
             return Glfw.WindowShouldClose(window);
+        }
+
+        private static void BehaviourStart(){
+            for(counter1 = 0; counter1 < sceneGameobjectsCount; counter1++){
+
+                for(counter2 = 0; counter2 < sceneGameobjects[counter1].behaviours.Count; counter2++)
+                    sceneGameobjects[counter1].behaviours[counter2].Start();
+
+            }
+        }
+
+        private static void BehaviourUpdate(){
+            for(counter1 = 0; counter1 < sceneGameobjectsCount; counter1++){
+
+                for(counter2 = 0; counter2 < sceneGameobjects[counter1].behaviours.Count; counter2++)
+                    sceneGameobjects[counter1].behaviours[counter2].Update();
+
+            }
+        }
+
+        private static void ComponentUpdate(){
+            for(counter1 = 0; counter1 < sceneGameobjectsCount; counter1++){
+
+                for(counter2 = 0; counter2 < sceneGameobjects[counter1].components.Count; counter2++)
+                    sceneGameobjects[counter1].components[counter2].ComponentUpdate();
+
+            }
+        }
+
+        private static void Render(){
+            for(counter1 = 0; counter1 < sceneGameobjectsCount; counter1++){
+                if(sceneGameobjects[counter1].renderComponent != null)
+                    sceneGameobjects[counter1].renderComponent?.ComponentUpdate();
+
+            }
+        }
+
+        private static void SetMainCamera(){
+            for(int i = 0; i < sceneGameobjectsCount; i++){
+                for(int j = 0; j < sceneGameobjects[i].components.Count; j++){
+                    if(sceneGameobjects[i].components[j] is Camera)
+                        mainCamera = (Camera) sceneGameobjects[i].components[j];
+
+                }
+            }
+        }
+
+        public static void MainLoop(){
+            OpenGL.GL.glClearColor(0.18f, 0.18f, 0.18f, 1f);
+            OpenGL.GL.glClear(OpenGL.GL.GL_COLOR_BUFFER_BIT | OpenGL.GL.GL_DEPTH_BUFFER_BIT);
+
+
+
+            GLFW.Glfw.PollEvents();                
+            GLFW.Glfw.SwapBuffers(MainProcess.window);
         }
 
     }
