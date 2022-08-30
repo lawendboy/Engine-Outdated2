@@ -1,8 +1,9 @@
+#pragma warning disable CS8618
 namespace Engine {
-    interface Component {
-        public void Attach(in GameObject parent);
-        public void ComponentUpdate() {
-
-        }
+    abstract class Component {
+        public GameObject gameObject;
+        public Transform transform;
+        public virtual void Start() {}
+        public virtual void Update() {}
     }
 }

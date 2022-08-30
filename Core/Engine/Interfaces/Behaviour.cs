@@ -1,9 +1,5 @@
-using System;
-
 namespace Engine {
-    interface Behaviour {
-        void Start(){}
-        void Update(){}
-        void LateUpdate(){}
+    abstract class Behaviour : Component {
+        
     }
 }

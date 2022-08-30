@@ -7,6 +7,13 @@ namespace App {
 
             MainProcess.Init();
 
+            GameObject cameraGameObject = new GameObject();
+            Camera camera = new Camera();
+            cameraGameObject.AddComponent(camera);
+            cameraGameObject.AddComponent(new PlayerScript());
+
+            MainProcess.sceneGameobjects.Add(cameraGameObject);
+
             MainProcess.StartScene();
 
             // List<Behaviour> behavioursList = new List<Behaviour>();
