@@ -5,5 +5,6 @@ namespace Engine {
         public Transform transform;
         public virtual void Start() {}
         public virtual void Update() {}
+        public virtual void RenderUpdate() {}
     }
 }

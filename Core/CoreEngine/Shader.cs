@@ -7,6 +7,8 @@ namespace CoreEngine {
 
         private uint program;
 
+        private Dictionary<string, uint> uniforms;
+
         public Shader(string vertexShaderCode, string fragmentShaderCode){
             uint vertexShader;
             vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -38,11 +40,35 @@ namespace CoreEngine {
             glDeleteShader(vertexShader);
             glDeleteShader(fragmentShader);
 
+            uniforms = new Dictionary<string, uint>();
+
         }
 
+        public void SetupUniform(string uniformName){
+            uint uniform = glGetUniformLocation(program, uniformName);
+            if(uniform == 0xFFFF){
+                Console.WriteLine("Cannot find uniform named: " + uniformName);
+                return;
+            }
+            uniforms.Add(uniformName, uniform);
+        }
+
+        public void SetupUniforms(string[] uniformsName){
+            uint uniform;
+            foreach(var v in uniformsName){
+                uniform = glGetUniformLocation(program, v);
+                if(uniform == 0xFFFF){
+                    Console.WriteLine("Cannot find uniform named: " + v);
+                    return;
+                }
+                uniforms.Add(v, uniform);
+            }
+        }
         public void Use(){
             glUseProgram(program);
         }
+
+
 
     }
 }

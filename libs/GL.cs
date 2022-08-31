@@ -2687,7 +2687,7 @@ namespace OpenGL
         /// <param name="program">Specifies the program object to be queried.</param>
         /// <param name="name">Points to a null terminated string containing the name of the uniform variable whose location is to be queried.</param>
         /// <returns>An integer that represents the location of a specific uniform variable within a program object.</returns>
-        public static int glGetUniformLocation(uint program, /*const*/ byte* name) => _glGetUniformLocation(program, name);
+        public static uint glGetUniformLocation(uint program, /*const*/ byte* name) => _glGetUniformLocation(program, name);
 
         /// <summary>
         ///      Returns the location of a uniform variable.
@@ -2695,7 +2695,7 @@ namespace OpenGL
         /// <param name="program">Specifies the program object to be queried.</param>
         /// <param name="name">A array of bytes containing the name of the uniform variable whose location is to be queried.</param>
         /// <returns>An integer that represents the location of a specific uniform variable within a program object.</returns>
-        public static int glGetUniformLocation(uint program, byte[] name)
+        public static uint glGetUniformLocation(uint program, byte[] name)
         {
             fixed (byte* b = &name[0])
             {
@@ -2709,7 +2709,7 @@ namespace OpenGL
         /// <param name="program">Specifies the program object to be queried.</param>
         /// <param name="name">A string containing the name of the uniform variable whose location is to be queried.</param>
         /// <returns>An integer that represents the location of a specific uniform variable within a program object.</returns>
-        public static int glGetUniformLocation(uint program, string name)
+        public static uint glGetUniformLocation(uint program, string name)
         {
             var bytes = Encoding.UTF8.GetBytes(name);
             fixed (byte* b = &bytes[0])
@@ -8497,7 +8497,7 @@ namespace OpenGL
         private delegate void PFNGLGETSHADERSOURCEPROC(uint shader, int bufSize, int* length, byte* source);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int PFNGLGETUNIFORMLOCATIONPROC(uint program, /*const*/ byte* name);
+        private delegate uint PFNGLGETUNIFORMLOCATIONPROC(uint program, /*const*/ byte* name);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLGETUNIFORMFVPROC(uint program, int location, float* args);

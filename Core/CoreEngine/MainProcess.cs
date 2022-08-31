@@ -112,8 +112,6 @@ namespace CoreEngine {
 
             UpdateComponents();
 
-            viewMatrix = mainCamera.GetViewMatrix();
-
             GLFW.Glfw.PollEvents();                
             GLFW.Glfw.SwapBuffers(MainProcess.window);
         }

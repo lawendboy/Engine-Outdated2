@@ -1,5 +1,5 @@
 namespace CoreEngine {
-    class RenderMesh {
+    struct RenderMesh {
         uint id;
         uint vertices;
         uint vbo;
