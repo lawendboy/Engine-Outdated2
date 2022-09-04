@@ -1,7 +1,7 @@
 namespace Engine {
     public struct Vector3 {
         
-        private float[] values = new float[3];
+        public readonly float[] values = new float[3];
         
         public Vector3(float x, float y, float z){
             values[0] = x;
@@ -26,7 +26,9 @@ namespace Engine {
         public float[] glVal { get { return values; } }
 
         public void Normalize() {
-            values = normalized.values;
+            values[0] = normalized.values[0];
+            values[1] = normalized.values[1];
+            values[2] = normalized.values[2];
         }
 
         public static Vector3 crossProduct(Vector3 left, Vector3 right){

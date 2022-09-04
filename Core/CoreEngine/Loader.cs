@@ -2,41 +2,34 @@ using Engine;
 using static OpenGL.GL;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.CompilerServices;
 namespace CoreEngine {
     static class Loader {
-        public static Texture LoadTexture(string path){
-            Bitmap bitmap = new Bitmap(path);
-            uint id = glGenTexture();
-            
-            BitmapData data = bitmap.LockBits(
-                new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                ImageLockMode.ReadOnly,
-                System.Drawing.Imaging.PixelFormat.Format32bppArgb
-            );
+        public static RenderMesh LoadMeshFloatArray(float[] vertices){
 
-            glBindTexture(GL_TEXTURE_2D, id);
-            glTexImage2D(
-                GL_TEXTURE_2D,
-                0,
-                GL_RGBA,
-                bitmap.Width,
-                bitmap.Height,
-                0,
-                GL_BGRA,
-                GL_UNSIGNED_BYTE,
-                data.Scan0
-            );
+            uint VAO, VBO;
+            VAO = glGenVertexArray();
+            VBO = glGenBuffer();
 
-            bitmap.UnlockBits(data);
+            glBindVertexArray(VAO);
+            glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-            glGenerateMipmap(GL_TEXTURE_2D);
+        unsafe{            
+            fixed(float* data = &vertices[0]){
+                glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.Length, data, GL_STATIC_DRAW);
+            }
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * sizeof(float), (void*)0);
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+            glEnableVertexAttribArray(2);
+            glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+            glBindVertexArray(0);
 
-            return new Texture(id);
+        }
+
+            return new RenderMesh(VAO, (uint)vertices.Length / 8, VBO);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace CoreEngine {
 
         public void SetupUniform(string uniformName){
             uint uniform = glGetUniformLocation(program, uniformName);
-            if(uniform == 0xFFFF){
+            if(uniform == 0xFFFFFFFF){
                 Console.WriteLine("Cannot find uniform named: " + uniformName);
                 return;
             }
@@ -57,18 +57,43 @@ namespace CoreEngine {
             uint uniform;
             foreach(var v in uniformsName){
                 uniform = glGetUniformLocation(program, v);
-                if(uniform == 0xFFFF){
+                if(uniform == 0xFFFFFFFF){
                     Console.WriteLine("Cannot find uniform named: " + v);
                     return;
                 }
                 uniforms.Add(v, uniform);
             }
         }
-        public void Use(){
-            glUseProgram(program);
+
+        public void Use() => glUseProgram(program);
+
+        public void SetUniformMaterial(Material value){
+            glUniform3fv(uniforms["material.ambinet"], 1, value.ambient.glVal);
+            glUniform3fv(uniforms["material.diffuse"], 1, value.diffuse.glVal);
+            glUniform3fv(uniforms["material.specular"], 1, value.specular.glVal);
+            glUniform1f(uniforms["material.shininess"], value.shininess);
+            glBindTexture(GL_TEXTURE_2D, value.texture.id);
         }
 
+        public void SetUniformMatrix4f(string uniformName, in Matrix4f value){
+            if(uniforms.ContainsKey(uniformName))
+                glUniformMatrix4fv(uniforms[uniformName], 1, false, value.values);
+        }
 
+        public void SetUniformVector3f(string uniformName, in Vector3 value){
+            if(uniforms.ContainsKey(uniformName))
+                glUniform3fv(uniforms[uniformName], 1, value.glVal);
+        }
+
+        public void SetUniformFloat(string uniformName, float value){
+            if(uniforms.ContainsKey(uniformName))
+                glUniform1f(uniforms[uniformName], value);
+        }
+
+        public void SetUniformInt(string uniformName, int value){
+            if(uniforms.ContainsKey(uniformName))
+                glUniform1i(uniforms[uniformName], value);
+        }
 
     }
 }

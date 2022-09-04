@@ -20,13 +20,15 @@ namespace CoreEngine {
 
         public static float fieldOfView = 60;
 
+        public static List<Shader> shaders = new List<Shader>();
+        public static int currentShader = -1;
+
         public static Matrix4f projectionMatrix;
         public static Matrix4f viewMatrix;
 
         private static Camera mainCamera = new Camera();
 
         public static List<GameObject> sceneGameobjects = new List<GameObject>();
-        public static int sceneGameobjectsCount = 0;
 
         private static int counter1 = 0;
         private static int counter2 = 0;
@@ -51,16 +53,19 @@ namespace CoreEngine {
 
             Glfw.SetWindowSizeCallback(window, sizeCallabck);
 
+            projectionMatrix = Matrix4f.projection(fieldOfView, width / (float) height, 0.1f, 1000.0f); 
+
+            UpdateProjectionMatrixOnShaders();
+
         }
 
         public static void StartScene() {
             //Sekcja ładowania sceny
             //Ładowanie gameobjectow i ich komponentów
-
-            sceneGameobjectsCount = sceneGameobjects.Count;
-
+            
             //Attaching components;
-            for(counter1 = 0; counter1 < sceneGameobjectsCount; counter1++){
+
+            for(counter1 = 0; counter1 < sceneGameobjects.Count; counter1++){
 
                 for(counter2 = 0; counter2 < sceneGameobjects[counter1].components.Count; counter2++){
                     sceneGameobjects[counter1].components[counter2].gameObject = sceneGameobjects[counter1];
@@ -70,12 +75,17 @@ namespace CoreEngine {
             }
 
             SetMainCamera();
+            shaders[0].Use();
+            shaders[0].SetUniformFloat("inp", 1f);
 
-            bool exitLoop = false;
-            while(!exitLoop) MainLoop();
+            while(!windowShouldClose()) MainLoop();
         }
 
-        //Callbacks
+        private static void UpdateProjectionMatrixOnShaders(){
+            for(int i = 0; i < shaders.Count; i++){
+                shaders[i].SetUniformMatrix4f("projection", projectionMatrix);
+            }
+        }
 
         private static void sizeCallabck(Window window, int width, int height){
             MainProcess.width = width;
@@ -89,7 +99,7 @@ namespace CoreEngine {
         }
 
         private static void SetMainCamera(){
-            for(int i = 0; i < sceneGameobjectsCount; i++){
+            for(int i = 0; i < sceneGameobjects.Count; i++){
                 for(int j = 0; j < sceneGameobjects[i].components.Count; j++){
                     if(sceneGameobjects[i].components[j] is Camera)
                         mainCamera = (Camera) sceneGameobjects[i].components[j];
@@ -98,10 +108,39 @@ namespace CoreEngine {
             }
         }
 
-        public static void UpdateComponents(){
-            for(counter1 = 0; counter1 < sceneGameobjectsCount; counter1++){
+        private static void UpdateComponents(){
+            for(counter1 = 0; counter1 < sceneGameobjects.Count; counter1++){
                 for(counter2 = 0; counter2 < sceneGameobjects[counter1].components.Count; counter2++){
                     sceneGameobjects[counter1].components[counter2].Update();
+                }
+            }
+        }
+
+        private static void Render(){
+            //Ustawianie view matrixa
+            for(counter1 = 0; counter1 < shaders.Count; counter1++){
+                shaders[counter1].SetUniformMatrix4f("view", viewMatrix);
+            }
+
+            //Renderowanie wszystkich gameobjectów z rendermeshem
+            for(counter1 = 0; counter1 < sceneGameobjects.Count; counter1++){
+                int shader;
+                if(sceneGameobjects[counter1].renderComponent != null){
+                #pragma warning disable CS8602
+
+                    shader = sceneGameobjects[counter1].renderComponent.shader;
+                    if(currentShader != shader){
+                        shaders[shader].Use(); 
+                        currentShader = shader;
+                    }
+
+                    shaders[currentShader].SetUniformMatrix4f("model", sceneGameobjects[counter1].transform.GetModelMatrix());
+
+                    glBindVertexArray(sceneGameobjects[counter1].renderComponent.mesh.id);
+                    // shaders[currentShader].SetUniformMaterial(sceneGameobjects[counter1].renderComponent.material);
+                    glDrawArrays(GL_TRIANGLES, 0, sceneGameobjects[counter1].renderComponent.mesh.vertices);
+
+                #pragma warning restore CS8602
                 }
             }
         }
@@ -112,10 +151,15 @@ namespace CoreEngine {
 
             UpdateComponents();
 
+            // renderThread.Start();
+
+            Render();
+
             GLFW.Glfw.PollEvents();                
             GLFW.Glfw.SwapBuffers(MainProcess.window);
+            
         }
 
     }
 
-}
+}   

@@ -1,5 +1,6 @@
 using CoreEngine;
 using Engine;
+using System.Runtime.CompilerServices;
 
 namespace App {
     static class App {
@@ -7,12 +8,48 @@ namespace App {
 
             MainProcess.Init();
 
+            Shader mainShader = new Shader(
+                File.ReadAllText(Directory.GetCurrentDirectory() + "/shaders/vertex.glsl"),
+                File.ReadAllText(Directory.GetCurrentDirectory() + "/shaders/fragment.glsl")
+            );
+            //FragColor = vec4(texture(inputTexture, fs_in.TexCoords).rgb, 1.0);
+
+            float[] objectArray = new float[]{
+                1.000000f, 1.000000f, -1.000000f, 0, 0, 0, 0, 0,
+                1.000000f, -1.000000f, -1.000000f, 0, 0, 0, 0, 0,
+                1.000000f, 1.000000f, 1.000000f, 0, 0, 0, 0, 0,
+                1.000000f, -1.000000f, 1.000000f, 0, 0, 0, 0, 0,
+                -1.000000f, 1.000000f, -1.000000f, 0, 0, 0, 0, 0,
+                -1.000000f, -1.000000f, -1.000000f, 0, 0, 0, 0, 0,
+                -1.000000f, 1.000000f, 1.000000f, 0, 0, 0, 0, 0,
+                -1.000000f, -1.000000f, 1.000000f, 0, 0, 0, 0, 0
+            };
+
+            // mainShader.SetupUniform("inputTexture");
+
+            mainShader.SetupUniform("projection");
+            mainShader.SetupUniform("inp");
+            mainShader.SetupUniform("view");
+            mainShader.SetupUniform("model");
+
+            MainProcess.shaders.Add(mainShader);
+
             GameObject cameraGameObject = new GameObject();
             Camera camera = new Camera();
             cameraGameObject.AddComponent(camera);
             cameraGameObject.AddComponent(new PlayerScript());
 
+            GameObject cube = new GameObject();
+
+            MeshRenderer renderer = new MeshRenderer();
+            renderer.mesh = Loader.LoadMeshFloatArray(objectArray);
+            renderer.material = new Material();
+            renderer.shader = 0;
+
+            cube.renderComponent = renderer;
+
             MainProcess.sceneGameobjects.Add(cameraGameObject);
+            MainProcess.sceneGameobjects.Add(cube);
 
             MainProcess.StartScene();
 

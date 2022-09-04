@@ -268,7 +268,7 @@ namespace OpenGL
         /// <param name="mode">Specifies what kind of primitives to render.</param>
         /// <param name="first">Specifies the starting index in the enabled arrays.</param>
         /// <param name="count">Specifies the number of indices to be rendered.</param>
-        public static void glDrawArrays(int mode, int first, int count) => _glDrawArrays(mode, first, count);
+        public static void glDrawArrays(int mode, int first, uint count) => _glDrawArrays(mode, first, count);
 
         /// <summary>
         ///     Specify which color buffers are to be drawn into.
@@ -3734,7 +3734,7 @@ namespace OpenGL
         /// </summary>
         /// <param name="location">Specifies the location of the uniform value to be modified.</param>
         /// <param name="v0">The value.</param>
-        public static void glUniform1f(int location, float v0) => _glUniform1f(location, v0);
+        public static void glUniform1f(uint location, float v0) => _glUniform1f(location, v0);
 
         /// <summary>
         ///     Specify the value of a uniform variable for the current program object.
@@ -3802,7 +3802,7 @@ namespace OpenGL
         /// </summary>
         /// <param name="location">Specifies the location of the uniform value to be modified.</param>
         /// <param name="v0">The first value.</param>
-        public static void glUniform1i(int location, int v0) => _glUniform1i(location, v0);
+        public static void glUniform1i(uint location, int v0) => _glUniform1i(location, v0);
 
         /// <summary>
         ///     Specify the value of a uniform variable for the current program object.
@@ -3853,7 +3853,7 @@ namespace OpenGL
         /// <param name="location">Specifies the location of the uniform value to be modified.</param>
         /// <param name="count">Specifies the number of elements that are to be modified.</param>
         /// <param name="value">The values to set.</param>
-        public static void glUniform3fv(int location, int count, /*const*/ float* value) => _glUniform3fv(location, count, value);
+        public static void glUniform3fv(uint location, int count, /*const*/ float* value) => _glUniform3fv(location, count, value);
 
         /// <summary>
         ///     Specify the value of a uniform variable for the current program object.
@@ -3897,7 +3897,7 @@ namespace OpenGL
         /// <param name="location">Specifies the location of the uniform value to be modified.</param>
         /// <param name="count">Specifies the number of elements that are to be modified.</param>
         /// <param name="value">The values to set.</param>
-        public static void glUniform3fv(int location, int count, float[] value)
+        public static void glUniform3fv(uint location, int count, float[] value)
         {
             fixed (float* v = &value[0])
             {
@@ -6466,7 +6466,7 @@ namespace OpenGL
         /// <param name="count">Specifies the number of matrices that are to be modified.</param>
         /// <param name="transpose">Specifies whether to transpose the matrix as the values are loaded into the uniform variable.</param>
         /// <param name="value">Specifies a pointer to an array of count values that will be used to update the specified uniform variable.</param>
-        public static void glUniformMatrix4fv(int location, int count, bool transpose, /*const*/ float* value) => _glUniformMatrix4fv(location, count, transpose, value);
+        public static void glUniformMatrix4fv(uint location, int count, bool transpose, /*const*/ float* value) => _glUniformMatrix4fv(location, count, transpose, value);
 
         /// <summary>
         /// Specify the value of a uniform variable for the current program object.
@@ -6559,7 +6559,7 @@ namespace OpenGL
         /// <param name="count">Specifies the number of matrices that are to be modified.</param>
         /// <param name="transpose">Specifies whether to transpose the matrix as the values are loaded into the uniform variable.</param>
         /// <param name="values">An array of count values that will be used to update the specified uniform variable.</param>
-        public static void glUniformMatrix4fv(int location, int count, bool transpose, float[] values)
+        public static void glUniformMatrix4fv(uint location, int count, bool transpose, float[] values)
         {
             fixed (float* value = &values[0])
             {
@@ -8263,7 +8263,7 @@ namespace OpenGL
         private delegate void PFNGLVIEWPORTPROC(int x, int y, int width, int height);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void PFNGLDRAWARRAYSPROC(int mode, int first, int count);
+        private delegate void PFNGLDRAWARRAYSPROC(int mode, int first, uint count);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLDRAWELEMENTSPROC(int mode, int count, int type, /*const*/ void* indices);
@@ -8533,7 +8533,7 @@ namespace OpenGL
         private delegate void PFNGLUSEPROGRAMPROC(uint program);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void PFNGLUNIFORM1FPROC(int location, float v0);
+        private delegate void PFNGLUNIFORM1FPROC(uint location, float v0);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLUNIFORM2FPROC(int location, float v0, float v1);
@@ -8545,7 +8545,7 @@ namespace OpenGL
         private delegate void PFNGLUNIFORM4FPROC(int location, float v0, float v1, float v2, float v3);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void PFNGLUNIFORM1IPROC(int location, int v0);
+        private delegate void PFNGLUNIFORM1IPROC(uint location, int v0);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLUNIFORM2IPROC(int location, int v0, int v1);
@@ -8563,7 +8563,7 @@ namespace OpenGL
         private delegate void PFNGLUNIFORM2FVPROC(int location, int count, /*const*/ float* value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void PFNGLUNIFORM3FVPROC(int location, int count, /*const*/ float* value);
+        private delegate void PFNGLUNIFORM3FVPROC(uint location, int count, /*const*/ float* value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLUNIFORM4FVPROC(int location, int count, /*const*/ float* value);
@@ -8587,7 +8587,7 @@ namespace OpenGL
         private delegate void PFNGLUNIFORMMATRIX3FVPROC(int location, int count, bool transpose, /*const*/ float* value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void PFNGLUNIFORMMATRIX4FVPROC(int location, int count, bool transpose, /*const*/ float* value);
+        private delegate void PFNGLUNIFORMMATRIX4FVPROC(uint location, int count, bool transpose, /*const*/ float* value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLVALIDATEPROGRAMPROC(uint program);

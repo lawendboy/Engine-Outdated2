@@ -3,10 +3,10 @@ using CoreEngine;
 
 namespace Engine {
     struct Material {
-        Texture texture;
-        Vector3 ambient;
-        Vector3 diffuse;
-        Vector3 specular;
-        float shininess;
+        public Texture texture;
+        public Vector3 ambient;
+        public Vector3 diffuse;
+        public Vector3 specular;
+        public float shininess;
     }
 }
