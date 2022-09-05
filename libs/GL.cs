@@ -268,7 +268,7 @@ namespace OpenGL
         /// <param name="mode">Specifies what kind of primitives to render.</param>
         /// <param name="first">Specifies the starting index in the enabled arrays.</param>
         /// <param name="count">Specifies the number of indices to be rendered.</param>
-        public static void glDrawArrays(int mode, int first, uint count) => _glDrawArrays(mode, first, count);
+        public static void glDrawArrays(int mode, int first, int count) => _glDrawArrays(mode, first, count);
 
         /// <summary>
         ///     Specify which color buffers are to be drawn into.
@@ -2687,7 +2687,7 @@ namespace OpenGL
         /// <param name="program">Specifies the program object to be queried.</param>
         /// <param name="name">Points to a null terminated string containing the name of the uniform variable whose location is to be queried.</param>
         /// <returns>An integer that represents the location of a specific uniform variable within a program object.</returns>
-        public static uint glGetUniformLocation(uint program, /*const*/ byte* name) => _glGetUniformLocation(program, name);
+        public static int glGetUniformLocation(uint program, /*const*/ byte* name) => _glGetUniformLocation(program, name);
 
         /// <summary>
         ///      Returns the location of a uniform variable.
@@ -2695,7 +2695,7 @@ namespace OpenGL
         /// <param name="program">Specifies the program object to be queried.</param>
         /// <param name="name">A array of bytes containing the name of the uniform variable whose location is to be queried.</param>
         /// <returns>An integer that represents the location of a specific uniform variable within a program object.</returns>
-        public static uint glGetUniformLocation(uint program, byte[] name)
+        public static int glGetUniformLocation(uint program, byte[] name)
         {
             fixed (byte* b = &name[0])
             {
@@ -2709,7 +2709,7 @@ namespace OpenGL
         /// <param name="program">Specifies the program object to be queried.</param>
         /// <param name="name">A string containing the name of the uniform variable whose location is to be queried.</param>
         /// <returns>An integer that represents the location of a specific uniform variable within a program object.</returns>
-        public static uint glGetUniformLocation(uint program, string name)
+        public static int glGetUniformLocation(uint program, string name)
         {
             var bytes = Encoding.UTF8.GetBytes(name);
             fixed (byte* b = &bytes[0])
@@ -3734,7 +3734,7 @@ namespace OpenGL
         /// </summary>
         /// <param name="location">Specifies the location of the uniform value to be modified.</param>
         /// <param name="v0">The value.</param>
-        public static void glUniform1f(uint location, float v0) => _glUniform1f(location, v0);
+        public static void glUniform1f(int location, float v0) => _glUniform1f(location, v0);
 
         /// <summary>
         ///     Specify the value of a uniform variable for the current program object.
@@ -3802,7 +3802,7 @@ namespace OpenGL
         /// </summary>
         /// <param name="location">Specifies the location of the uniform value to be modified.</param>
         /// <param name="v0">The first value.</param>
-        public static void glUniform1i(uint location, int v0) => _glUniform1i(location, v0);
+        public static void glUniform1i(int location, int v0) => _glUniform1i(location, v0);
 
         /// <summary>
         ///     Specify the value of a uniform variable for the current program object.
@@ -3853,7 +3853,7 @@ namespace OpenGL
         /// <param name="location">Specifies the location of the uniform value to be modified.</param>
         /// <param name="count">Specifies the number of elements that are to be modified.</param>
         /// <param name="value">The values to set.</param>
-        public static void glUniform3fv(uint location, int count, /*const*/ float* value) => _glUniform3fv(location, count, value);
+        public static void glUniform3fv(int location, int count, /*const*/ float* value) => _glUniform3fv(location, count, value);
 
         /// <summary>
         ///     Specify the value of a uniform variable for the current program object.
@@ -3897,7 +3897,7 @@ namespace OpenGL
         /// <param name="location">Specifies the location of the uniform value to be modified.</param>
         /// <param name="count">Specifies the number of elements that are to be modified.</param>
         /// <param name="value">The values to set.</param>
-        public static void glUniform3fv(uint location, int count, float[] value)
+        public static void glUniform3fv(int location, int count, float[] value)
         {
             fixed (float* v = &value[0])
             {
@@ -6466,7 +6466,7 @@ namespace OpenGL
         /// <param name="count">Specifies the number of matrices that are to be modified.</param>
         /// <param name="transpose">Specifies whether to transpose the matrix as the values are loaded into the uniform variable.</param>
         /// <param name="value">Specifies a pointer to an array of count values that will be used to update the specified uniform variable.</param>
-        public static void glUniformMatrix4fv(uint location, int count, bool transpose, /*const*/ float* value) => _glUniformMatrix4fv(location, count, transpose, value);
+        public static void glUniformMatrix4fv(int location, int count, bool transpose, /*const*/ float* value) => _glUniformMatrix4fv(location, count, transpose, value);
 
         /// <summary>
         /// Specify the value of a uniform variable for the current program object.
@@ -6559,7 +6559,7 @@ namespace OpenGL
         /// <param name="count">Specifies the number of matrices that are to be modified.</param>
         /// <param name="transpose">Specifies whether to transpose the matrix as the values are loaded into the uniform variable.</param>
         /// <param name="values">An array of count values that will be used to update the specified uniform variable.</param>
-        public static void glUniformMatrix4fv(uint location, int count, bool transpose, float[] values)
+        public static void glUniformMatrix4fv(int location, int count, bool transpose, float[] values)
         {
             fixed (float* value = &values[0])
             {
@@ -8263,7 +8263,7 @@ namespace OpenGL
         private delegate void PFNGLVIEWPORTPROC(int x, int y, int width, int height);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void PFNGLDRAWARRAYSPROC(int mode, int first, uint count);
+        private delegate void PFNGLDRAWARRAYSPROC(int mode, int first, int count);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLDRAWELEMENTSPROC(int mode, int count, int type, /*const*/ void* indices);
@@ -8497,7 +8497,7 @@ namespace OpenGL
         private delegate void PFNGLGETSHADERSOURCEPROC(uint shader, int bufSize, int* length, byte* source);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate uint PFNGLGETUNIFORMLOCATIONPROC(uint program, /*const*/ byte* name);
+        private delegate int PFNGLGETUNIFORMLOCATIONPROC(uint program, /*const*/ byte* name);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLGETUNIFORMFVPROC(uint program, int location, float* args);
@@ -8533,7 +8533,7 @@ namespace OpenGL
         private delegate void PFNGLUSEPROGRAMPROC(uint program);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void PFNGLUNIFORM1FPROC(uint location, float v0);
+        private delegate void PFNGLUNIFORM1FPROC(int location, float v0);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLUNIFORM2FPROC(int location, float v0, float v1);
@@ -8545,7 +8545,7 @@ namespace OpenGL
         private delegate void PFNGLUNIFORM4FPROC(int location, float v0, float v1, float v2, float v3);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void PFNGLUNIFORM1IPROC(uint location, int v0);
+        private delegate void PFNGLUNIFORM1IPROC(int location, int v0);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLUNIFORM2IPROC(int location, int v0, int v1);
@@ -8563,7 +8563,7 @@ namespace OpenGL
         private delegate void PFNGLUNIFORM2FVPROC(int location, int count, /*const*/ float* value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void PFNGLUNIFORM3FVPROC(uint location, int count, /*const*/ float* value);
+        private delegate void PFNGLUNIFORM3FVPROC(int location, int count, /*const*/ float* value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLUNIFORM4FVPROC(int location, int count, /*const*/ float* value);
@@ -8587,7 +8587,7 @@ namespace OpenGL
         private delegate void PFNGLUNIFORMMATRIX3FVPROC(int location, int count, bool transpose, /*const*/ float* value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void PFNGLUNIFORMMATRIX4FVPROC(uint location, int count, bool transpose, /*const*/ float* value);
+        private delegate void PFNGLUNIFORMMATRIX4FVPROC(int location, int count, bool transpose, /*const*/ float* value);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void PFNGLVALIDATEPROGRAMPROC(uint program);
@@ -9968,38 +9968,36 @@ namespace OpenGL
             _glVertexAttribP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXATTRIBP3UIVPROC>(loader.Invoke("glVertexAttribP3uiv"));
             _glVertexAttribP4ui = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXATTRIBP4UIPROC>(loader.Invoke("glVertexAttribP4ui"));
             _glVertexAttribP4uiv = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXATTRIBP4UIVPROC>(loader.Invoke("glVertexAttribP4uiv"));
-            /*
-            _glVertexP2ui = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP2UIPROC>(loader.Invoke("glVertexP2ui"));
-            _glVertexP2uiv = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP2UIVPROC>(loader.Invoke("glVertexP2uiv"));
-            _glVertexP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP3UIPROC>(loader.Invoke("glVertexP3ui"));
-            _glVertexP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP3UIVPROC>(loader.Invoke("glVertexP3uiv"));
-            _glVertexP4ui = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP4UIPROC>(loader.Invoke("glVertexP4ui"));
-            _glVertexP4uiv = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP4UIVPROC>(loader.Invoke("glVertexP4uiv"));
-            _glTexCoordP1ui = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP1UIPROC>(loader.Invoke("glTexCoordP1ui"));
-            _glTexCoordP1uiv = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP1UIVPROC>(loader.Invoke("glTexCoordP1uiv"));
-            _glTexCoordP2ui = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP2UIPROC>(loader.Invoke("glTexCoordP2ui"));
-            _glTexCoordP2uiv = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP2UIVPROC>(loader.Invoke("glTexCoordP2uiv"));
-            _glTexCoordP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP3UIPROC>(loader.Invoke("glTexCoordP3ui"));
-            _glTexCoordP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP3UIVPROC>(loader.Invoke("glTexCoordP3uiv"));
-            _glTexCoordP4ui = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP4UIPROC>(loader.Invoke("glTexCoordP4ui"));
-            _glTexCoordP4uiv = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP4UIVPROC>(loader.Invoke("glTexCoordP4uiv"));
-            _glMultiTexCoordP1ui = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP1UIPROC>(loader.Invoke("glMultiTexCoordP1ui"));
-            _glMultiTexCoordP1uiv = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP1UIVPROC>(loader.Invoke("glMultiTexCoordP1uiv"));
-            _glMultiTexCoordP2ui = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP2UIPROC>(loader.Invoke("glMultiTexCoordP2ui"));
-            _glMultiTexCoordP2uiv = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP2UIVPROC>(loader.Invoke("glMultiTexCoordP2uiv"));
-            _glMultiTexCoordP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP3UIPROC>(loader.Invoke("glMultiTexCoordP3ui"));
-            _glMultiTexCoordP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP3UIVPROC>(loader.Invoke("glMultiTexCoordP3uiv"));
-            _glMultiTexCoordP4ui = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP4UIPROC>(loader.Invoke("glMultiTexCoordP4ui"));
-            _glMultiTexCoordP4uiv = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP4UIVPROC>(loader.Invoke("glMultiTexCoordP4uiv"));
-            _glNormalP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLNORMALP3UIPROC>(loader.Invoke("glNormalP3ui"));
-            _glNormalP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLNORMALP3UIVPROC>(loader.Invoke("glNormalP3uiv"));
-            _glColorP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLCOLORP3UIPROC>(loader.Invoke("glColorP3ui"));
-            _glColorP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLCOLORP3UIVPROC>(loader.Invoke("glColorP3uiv"));
-            _glColorP4ui = Marshal.GetDelegateForFunctionPointer<PFNGLCOLORP4UIPROC>(loader.Invoke("glColorP4ui"));
-            _glColorP4uiv = Marshal.GetDelegateForFunctionPointer<PFNGLCOLORP4UIVPROC>(loader.Invoke("glColorP4uiv"));
-            _glSecondaryColorP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLSECONDARYCOLORP3UIPROC>(loader.Invoke("glSecondaryColorP3ui"));
-            _glSecondaryColorP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLSECONDARYCOLORP3UIVPROC>(loader.Invoke("glSecondaryColorP3uiv"));
-            */
+            // _glVertexP2ui = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP2UIPROC>(loader.Invoke("glVertexP2ui"));
+            // _glVertexP2uiv = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP2UIVPROC>(loader.Invoke("glVertexP2uiv"));
+            // _glVertexP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP3UIPROC>(loader.Invoke("glVertexP3ui"));
+            // _glVertexP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP3UIVPROC>(loader.Invoke("glVertexP3uiv"));
+            // _glVertexP4ui = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP4UIPROC>(loader.Invoke("glVertexP4ui"));
+            // _glVertexP4uiv = Marshal.GetDelegateForFunctionPointer<PFNGLVERTEXP4UIVPROC>(loader.Invoke("glVertexP4uiv"));
+            // _glTexCoordP1ui = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP1UIPROC>(loader.Invoke("glTexCoordP1ui"));
+            // _glTexCoordP1uiv = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP1UIVPROC>(loader.Invoke("glTexCoordP1uiv"));
+            // _glTexCoordP2ui = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP2UIPROC>(loader.Invoke("glTexCoordP2ui"));
+            // _glTexCoordP2uiv = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP2UIVPROC>(loader.Invoke("glTexCoordP2uiv"));
+            // _glTexCoordP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP3UIPROC>(loader.Invoke("glTexCoordP3ui"));
+            // _glTexCoordP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP3UIVPROC>(loader.Invoke("glTexCoordP3uiv"));
+            // _glTexCoordP4ui = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP4UIPROC>(loader.Invoke("glTexCoordP4ui"));
+            // _glTexCoordP4uiv = Marshal.GetDelegateForFunctionPointer<PFNGLTEXCOORDP4UIVPROC>(loader.Invoke("glTexCoordP4uiv"));
+            // _glMultiTexCoordP1ui = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP1UIPROC>(loader.Invoke("glMultiTexCoordP1ui"));
+            // _glMultiTexCoordP1uiv = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP1UIVPROC>(loader.Invoke("glMultiTexCoordP1uiv"));
+            // _glMultiTexCoordP2ui = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP2UIPROC>(loader.Invoke("glMultiTexCoordP2ui"));
+            // _glMultiTexCoordP2uiv = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP2UIVPROC>(loader.Invoke("glMultiTexCoordP2uiv"));
+            // _glMultiTexCoordP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP3UIPROC>(loader.Invoke("glMultiTexCoordP3ui"));
+            // _glMultiTexCoordP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP3UIVPROC>(loader.Invoke("glMultiTexCoordP3uiv"));
+            // _glMultiTexCoordP4ui = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP4UIPROC>(loader.Invoke("glMultiTexCoordP4ui"));
+            // _glMultiTexCoordP4uiv = Marshal.GetDelegateForFunctionPointer<PFNGLMULTITEXCOORDP4UIVPROC>(loader.Invoke("glMultiTexCoordP4uiv"));
+            // _glNormalP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLNORMALP3UIPROC>(loader.Invoke("glNormalP3ui"));
+            // _glNormalP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLNORMALP3UIVPROC>(loader.Invoke("glNormalP3uiv"));
+            // _glColorP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLCOLORP3UIPROC>(loader.Invoke("glColorP3ui"));
+            // _glColorP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLCOLORP3UIVPROC>(loader.Invoke("glColorP3uiv"));
+            // _glColorP4ui = Marshal.GetDelegateForFunctionPointer<PFNGLCOLORP4UIPROC>(loader.Invoke("glColorP4ui"));
+            // _glColorP4uiv = Marshal.GetDelegateForFunctionPointer<PFNGLCOLORP4UIVPROC>(loader.Invoke("glColorP4uiv"));
+            // _glSecondaryColorP3ui = Marshal.GetDelegateForFunctionPointer<PFNGLSECONDARYCOLORP3UIPROC>(loader.Invoke("glSecondaryColorP3ui"));
+            // _glSecondaryColorP3uiv = Marshal.GetDelegateForFunctionPointer<PFNGLSECONDARYCOLORP3UIVPROC>(loader.Invoke("glSecondaryColorP3uiv"));
         }
     }
 }

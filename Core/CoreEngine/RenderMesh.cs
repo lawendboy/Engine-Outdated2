@@ -1,9 +1,9 @@
 namespace CoreEngine {
     struct RenderMesh {
         public uint id;
-        public uint vertices;
+        public int vertices;
         public uint vbo;
-        public RenderMesh(uint id, uint vertices, uint vbo){
+        public RenderMesh(uint id, int vertices, uint vbo){
             this.id = id;
             this.vertices = vertices;
             this.vbo = vbo;

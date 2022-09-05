@@ -15,22 +15,29 @@ namespace App {
             //FragColor = vec4(texture(inputTexture, fs_in.TexCoords).rgb, 1.0);
 
             float[] objectArray = new float[]{
-                1.000000f, 1.000000f, -1.000000f, 0, 0, 0, 0, 0,
-                1.000000f, -1.000000f, -1.000000f, 0, 0, 0, 0, 0,
-                1.000000f, 1.000000f, 1.000000f, 0, 0, 0, 0, 0,
-                1.000000f, -1.000000f, 1.000000f, 0, 0, 0, 0, 0,
-                -1.000000f, 1.000000f, -1.000000f, 0, 0, 0, 0, 0,
-                -1.000000f, -1.000000f, -1.000000f, 0, 0, 0, 0, 0,
-                -1.000000f, 1.000000f, 1.000000f, 0, 0, 0, 0, 0,
-                -1.000000f, -1.000000f, 1.000000f, 0, 0, 0, 0, 0
+                1.000000f, 1.000000f, -1.000000f, 
+                1.000000f, -1.000000f, -1.000000f,
+                1.000000f, 1.000000f, 1.000000f,
+                1.000000f, -1.000000f, 1.000000f, 
+                -1.000000f, 1.000000f, -1.000000f,
+                -1.000000f, -1.000000f, -1.000000f,
+                -1.000000f, 1.000000f, 1.000000f, 
+                -1.000000f, -1.000000f, 1.000000f,
+            };
+
+            var vertices = new[] {
+            -0.5f, -0.5f, 0.0f, 0, 0, 0, 0, 0,
+            0.5f, -0.5f, 0.0f, 0, 0, 0, 0, 0,
+            0.0f,  0.5f, 0.0f, 0, 0, 0, 0, 0
             };
 
             // mainShader.SetupUniform("inputTexture");
 
-            mainShader.SetupUniform("projection");
-            mainShader.SetupUniform("inp");
-            mainShader.SetupUniform("view");
-            mainShader.SetupUniform("model");
+            // mainShader.SetupUniform("projection");
+            mainShader.SetupUniform("value");
+            // mainShader.SetupUniform("inp");
+            // mainShader.SetupUniform("view");
+            // mainShader.SetupUniform("model");
 
             MainProcess.shaders.Add(mainShader);
 
@@ -42,7 +49,7 @@ namespace App {
             GameObject cube = new GameObject();
 
             MeshRenderer renderer = new MeshRenderer();
-            renderer.mesh = Loader.LoadMeshFloatArray(objectArray);
+            renderer.mesh = Loader.LoadMeshFloatArray(vertices);
             renderer.material = new Material();
             renderer.shader = 0;
 

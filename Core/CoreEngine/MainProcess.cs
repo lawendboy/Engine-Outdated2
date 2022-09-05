@@ -53,9 +53,8 @@ namespace CoreEngine {
 
             Glfw.SetWindowSizeCallback(window, sizeCallabck);
 
-            projectionMatrix = Matrix4f.projection(fieldOfView, width / (float) height, 0.1f, 1000.0f); 
+            projectionMatrix = Matrix4f.projection(fieldOfView, width / (float) height, 0.1f, 1000.0f);
 
-            UpdateProjectionMatrixOnShaders();
 
         }
 
@@ -64,6 +63,9 @@ namespace CoreEngine {
             //Ładowanie gameobjectow i ich komponentów
             
             //Attaching components;
+
+            shaders[0].Use();
+            shaders[0].SetUniformMatrix4f("projection", projectionMatrix);
 
             for(counter1 = 0; counter1 < sceneGameobjects.Count; counter1++){
 
@@ -75,16 +77,8 @@ namespace CoreEngine {
             }
 
             SetMainCamera();
-            shaders[0].Use();
-            shaders[0].SetUniformFloat("inp", 1f);
 
             while(!windowShouldClose()) MainLoop();
-        }
-
-        private static void UpdateProjectionMatrixOnShaders(){
-            for(int i = 0; i < shaders.Count; i++){
-                shaders[i].SetUniformMatrix4f("projection", projectionMatrix);
-            }
         }
 
         private static void sizeCallabck(Window window, int width, int height){
@@ -134,7 +128,7 @@ namespace CoreEngine {
                         currentShader = shader;
                     }
 
-                    shaders[currentShader].SetUniformMatrix4f("model", sceneGameobjects[counter1].transform.GetModelMatrix());
+                    // shaders[currentShader].SetUniformMatrix4f("model", sceneGameobjects[counter1].transform.GetModelMatrix());
 
                     glBindVertexArray(sceneGameobjects[counter1].renderComponent.mesh.id);
                     // shaders[currentShader].SetUniformMaterial(sceneGameobjects[counter1].renderComponent.material);
@@ -146,14 +140,19 @@ namespace CoreEngine {
         }
 
         public static void MainLoop(){
-            OpenGL.GL.glClearColor(0.18f, 0.18f, 0.18f, 1f);
+            OpenGL.GL.glClearColor(0.6f, 0.6f, 0.6f, 1f);
             OpenGL.GL.glClear(OpenGL.GL.GL_COLOR_BUFFER_BIT | OpenGL.GL.GL_DEPTH_BUFFER_BIT);
 
             UpdateComponents();
 
             // renderThread.Start();
 
-            Render();
+            // Render();
+
+            shaders[0].Use();
+            shaders[0].SetUniformFloat("value", 0.9f);
+            glBindVertexArray(sceneGameobjects[1].renderComponent.mesh.id);
+            glDrawArrays(GL_TRIANGLES, 0, sceneGameobjects[1].renderComponent.mesh.vertices);
 
             GLFW.Glfw.PollEvents();                
             GLFW.Glfw.SwapBuffers(MainProcess.window);
