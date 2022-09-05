@@ -46,7 +46,7 @@ namespace CoreEngine {
 
         public void SetupUniform(string uniformName){
             int uniform = glGetUniformLocation(program, uniformName);
-            if(uniform != -1){
+            if(uniform == -1){
                 Console.WriteLine("Cannot find uniform named: " + uniformName);
                 return;
             }
@@ -75,7 +75,7 @@ namespace CoreEngine {
             glBindTexture(GL_TEXTURE_2D, value.texture.id);
         }
 
-        public void SetUniformMatrix4f(string uniformName, in Matrix4f value){
+        public void SetUniformMatrix4f(string uniformName, Matrix4f value){
             if(uniforms.ContainsKey(uniformName))
                 glUniformMatrix4fv(uniforms[uniformName], 1, false, value.values);
         }

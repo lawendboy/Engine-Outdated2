@@ -33,9 +33,7 @@ namespace App {
 
             // mainShader.SetupUniform("inputTexture");
 
-            // mainShader.SetupUniform("projection");
-            mainShader.SetupUniform("value");
-            // mainShader.SetupUniform("inp");
+            mainShader.SetupUniform("projection");
             // mainShader.SetupUniform("view");
             // mainShader.SetupUniform("model");
 

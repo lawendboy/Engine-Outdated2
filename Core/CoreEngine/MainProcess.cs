@@ -64,9 +64,6 @@ namespace CoreEngine {
             
             //Attaching components;
 
-            shaders[0].Use();
-            shaders[0].SetUniformMatrix4f("projection", projectionMatrix);
-
             for(counter1 = 0; counter1 < sceneGameobjects.Count; counter1++){
 
                 for(counter2 = 0; counter2 < sceneGameobjects[counter1].components.Count; counter2++){
@@ -150,7 +147,7 @@ namespace CoreEngine {
             // Render();
 
             shaders[0].Use();
-            shaders[0].SetUniformFloat("value", 0.9f);
+            shaders[0].SetUniformMatrix4f("projection", Matrix4f.identity);
             glBindVertexArray(sceneGameobjects[1].renderComponent.mesh.id);
             glDrawArrays(GL_TRIANGLES, 0, sceneGameobjects[1].renderComponent.mesh.vertices);
 
