@@ -13,7 +13,7 @@ namespace CoreEngine {
 
         public static GLFW.Window window;
 
-        public static int width = 600;
+        public static int width = 1200;
         public static int height = 800;
 
         public static string title = "Title";
@@ -29,6 +29,12 @@ namespace CoreEngine {
         private static Camera mainCamera = new Camera();
 
         public static List<GameObject> sceneGameobjects = new List<GameObject>();
+
+        private const float LOW_LIMIT = 0.0167f;          // Utrzymać na/pod 60fps'ami
+        private const float HIGH_LIMIT = 0.1f;            // Utrzymać na/nad 10fps'ami
+
+        private static float lastTime;
+        private static float currentTime;
 
         private static int counter1 = 0;
         private static int counter2 = 0;
@@ -74,6 +80,8 @@ namespace CoreEngine {
             }
 
             SetMainCamera();
+
+            lastTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
             while(!windowShouldClose()) MainLoop();
         }
@@ -137,7 +145,17 @@ namespace CoreEngine {
         }
 
         public static void MainLoop(){
-            OpenGL.GL.glClearColor(0.6f, 0.6f, 0.6f, 1f);
+
+            currentTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            Time.deltaTime = ( currentTime - lastTime );
+            if (Time.deltaTime < LOW_LIMIT)
+                Time.deltaTime = LOW_LIMIT;
+            else if (Time.deltaTime > HIGH_LIMIT)
+                Time.deltaTime = HIGH_LIMIT;
+
+            lastTime = currentTime;
+
+            OpenGL.GL.glClearColor(0.1f, 0.1f, 0.1f, 1f);
             OpenGL.GL.glClear(OpenGL.GL.GL_COLOR_BUFFER_BIT | OpenGL.GL.GL_DEPTH_BUFFER_BIT);
 
             UpdateComponents();
@@ -147,12 +165,18 @@ namespace CoreEngine {
             // Render();
 
             shaders[0].Use();
-            shaders[0].SetUniformMatrix4f("projection", Matrix4f.identity);
+            shaders[0].SetUniformMatrix4f("projection", projectionMatrix);
+            shaders[0].SetUniformMatrix4f("view", viewMatrix);
+            
+            #pragma warning disable CS8602
             glBindVertexArray(sceneGameobjects[1].renderComponent.mesh.id);
             glDrawArrays(GL_TRIANGLES, 0, sceneGameobjects[1].renderComponent.mesh.vertices);
+            #pragma warning restore CS8602
 
             GLFW.Glfw.PollEvents();                
             GLFW.Glfw.SwapBuffers(MainProcess.window);
+
+            Console.WriteLine("DeltaTime: " + Time.deltaTime);
             
         }
 

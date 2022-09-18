@@ -54,6 +54,10 @@ namespace Engine {
             return new Vector3(left.x + right.x, left.y + right.y, left.z + right.z);
         }
 
+        public static Vector3 operator - (Vector3 left, Vector3 right){
+            return new Vector3(left.x - right.x, left.y - right.y, left.z - right.z);
+        }
+
         public static implicit operator Vector4(Vector3 vec) => new Vector4(vec.x, vec.y, vec.z, 0.0f);
 
         public static implicit operator Vector2(Vector3 vec) => new Vector2(vec.x, vec.y);

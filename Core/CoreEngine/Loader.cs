@@ -24,7 +24,7 @@ namespace CoreEngine {
                 glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * sizeof(float), (void*)(6 * sizeof(float)));
                 glEnableVertexAttribArray(2);
             }
-            return new RenderMesh(vao, 3, vbo);
+            return new RenderMesh(vao, vertices.Length / 8, vbo);
         }
     }
 }

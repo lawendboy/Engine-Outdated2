@@ -18,89 +18,90 @@ namespace CoreEngine {
         }
 
         public static Matrix4f translationMatrix(Vector3 vector) => new Matrix4f(new float[]{
-            1, 0, 0, vector.x,
-            0, 1, 0, vector.y,
-            0, 0, 1, vector.z,
-            0, 0, 0, 1
-        });
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            vector.x, vector.y, vector.z, 1
+        }); // ZMIENIONE
 
         public static Matrix4f scalarMatrix(Vector3 vector) => new Matrix4f(new float[]{
             vector.x, 0, 0, 0,
             0, vector.y, 0, 0,
             0, 0, vector.z, 0,
             0, 0, 0, 1
-        });
+        }); // ZMIENIONE
 
         public static Matrix4f rotationMatrix(Quaternion quat) => new Matrix4f(new float[]{
             1-2*quat.y*quat.y-2*quat.z*quat.z, 2*quat.x*quat.y - 2*quat.w*quat.z, 2*quat.x*quat.z + 2*quat.w*quat.y, 0,
             2*quat.x*quat.y + 2*quat.w*quat.z, 1-2*quat.x*quat.x-2*quat.z*quat.z, 2*quat.y*quat.z-2*quat.w*quat.x, 0,
             2*quat.x*quat.z-2*quat.w*quat.y, 2*quat.y*quat.z+2*quat.w*quat.x, 1-2*quat.x*quat.x-2*quat.y*quat.y, 0,
             0, 0, 0, 1
-        });
+        }); // NIE ZMIENIONE
 
         public static Matrix4f rotationMatrixAroundX(float angle) => new Matrix4f(new float[]{
             1, 0, 0, 0,
-            0, MathF.Cos(angle), -MathF.Sin(angle), 0,
-            0, MathF.Sin(angle), MathF.Cos(angle), 0,
+            0, MathF.Cos(angle), MathF.Sin(angle), 0,
+            0, -MathF.Sin(angle), MathF.Cos(angle), 0,
             0, 0, 0, 1
-        });
+        }); // ZMIENIONE
 
         public static Matrix4f rotationMatrixAroundY(float angle) => new Matrix4f(new float[]{
-            MathF.Cos(angle), 0, MathF.Sin(angle), 0,
+            MathF.Cos(angle), 0, -MathF.Sin(angle), 0,
             0, 1, 0, 0,
-            -MathF.Sin(angle), 0, MathF.Cos(angle), 0,
+            MathF.Sin(angle), 0, MathF.Cos(angle), 0,
             0, 0, 0, 1
-        });
+        }); // ZMIENIONE
 
         public static Matrix4f rotationMatrixAroundZ(float angle) => new Matrix4f(new float[]{
-            MathF.Cos(angle), -MathF.Sin(angle), 0, 0,
-            MathF.Sin(angle), MathF.Cos(angle), 0, 0,
+            MathF.Cos(angle), MathF.Sin(angle), 0, 0,
+            -MathF.Sin(angle), MathF.Cos(angle), 0, 0,
             0, 0, 1, 0,
             0, 0, 0, 1
-        });
+        }); // ZMIENIONE
 
-        public static Matrix4f projection(float fieldOfView, float aspect, float zNear, float zFar){
-            float[] output = new float[16];
-            
-            float scale = 1 / MathF.Tan(fieldOfView * 0.5f * MathF.PI / 180); 
-            output[0] = scale;
-            output[5] = scale;
-            output[10] = zFar / (zFar - zNear);
-            output[11] = -zFar * zNear / (zFar - zNear);
-            output[14] = -1;
-            output[15] = 0;
+        public static Matrix4f projection(float fov, float aspect, float near, float far){
 
-            return new Matrix4f(output);
-        }
+            float D2R = MathF.PI / 180.0f;
+            float yScale = 1.0f / MathF.Tan(D2R * fov / 2);
+            float xScale = yScale / aspect;
+            float nearmfar = near - far;
+            float[] m = {
+                xScale, 0, 0, 0,
+                0, yScale, 0, 0,
+                0, 0, (far + near) / nearmfar, -1,
+                0, 0, 2*far*near / nearmfar, 0 
+            };    
 
+            return new Matrix4f(m);
+        } // robie
 
         public static Matrix4f operator * (Matrix4f left, Matrix4f right){
             float[] output = new float[16];
-            output[0] = left.values[0] * right.values[0] + left.values[1] * right.values[4] + left.values[2] * right.values[8] + left.values[3] * right.values[12];
-            output[1] = left.values[0] * right.values[1] + left.values[1] * right.values[5] + left.values[2] * right.values[9] + left.values[3] * right.values[13];
-            output[2] = left.values[0] * right.values[2] + left.values[1] * right.values[6] + left.values[2] * right.values[10] + left.values[3] * right.values[14];
-            output[3] = left.values[0] * right.values[3] + left.values[1] * right.values[7] + left.values[2] * right.values[11] + left.values[3] * right.values[15];
-            output[4] = left.values[4] * right.values[0] + left.values[5] * right.values[4] + left.values[6] * right.values[8] + left.values[7] * right.values[12];
-            output[5] = left.values[4] * right.values[1] + left.values[5] * right.values[5] + left.values[6] * right.values[9] + left.values[7] * right.values[13];
-            output[6] = left.values[4] * right.values[2] + left.values[5] * right.values[6] + left.values[6] * right.values[10] + left.values[7] * right.values[14];
-            output[7] = left.values[4] * right.values[3] + left.values[5] * right.values[7] + left.values[6] * right.values[11] + left.values[7] * right.values[15];
-            output[8] = left.values[8] * right.values[0] + left.values[9] * right.values[4] + left.values[10] * right.values[8] + left.values[11] * right.values[12];
-            output[9] = left.values[8] * right.values[1] + left.values[9] * right.values[5] + left.values[10] * right.values[9] + left.values[11] * right.values[13];
-            output[10] = left.values[8] * right.values[2] + left.values[9] * right.values[6] + left.values[10] * right.values[10] + left.values[11] * right.values[14];
-            output[11] = left.values[8] * right.values[3] + left.values[9] * right.values[7] + left.values[10] * right.values[11] + left.values[11] * right.values[15];
-            output[12] = left.values[12] * right.values[0] + left.values[13] * right.values[4] + left.values[14] * right.values[8] + left.values[15] * right.values[12];
-            output[13] = left.values[12] * right.values[1] + left.values[13] * right.values[5] + left.values[14] * right.values[9] + left.values[15] * right.values[13];
-            output[14] = left.values[12] * right.values[2] + left.values[13] * right.values[6] + left.values[14] * right.values[10] + left.values[15] * right.values[14];
-            output[15] = left.values[12] * right.values[3] + left.values[13] * right.values[7] + left.values[14] * right.values[11] + left.values[15] * right.values[15];
+            output[0] = left.values[0] * right.values[0] + left.values[4] * right.values[1] + left.values[8] * right.values[2] + left.values[12] * right.values[3];
+            output[4] = left.values[0] * right.values[4] + left.values[4] * right.values[5] + left.values[8] * right.values[6] + left.values[12] * right.values[7];
+            output[8] = left.values[0] * right.values[8] + left.values[4] * right.values[9] + left.values[8] * right.values[10] + left.values[12] * right.values[11];
+            output[12] = left.values[0] * right.values[12] + left.values[4] * right.values[13] + left.values[8] * right.values[14] + left.values[12] * right.values[15];
+            output[1] = left.values[1] * right.values[0] + left.values[5] * right.values[1] + left.values[9] * right.values[2] + left.values[13] * right.values[3];
+            output[5] = left.values[1] * right.values[4] + left.values[5] * right.values[5] + left.values[9] * right.values[6] + left.values[13] * right.values[7];
+            output[9] = left.values[1] * right.values[8] + left.values[5] * right.values[9] + left.values[9] * right.values[10] + left.values[13] * right.values[11];
+            output[13] = left.values[1] * right.values[12] + left.values[5] * right.values[13] + left.values[9] * right.values[14] + left.values[13] * right.values[15];
+            output[2] = left.values[2] * right.values[0] + left.values[6] * right.values[1] + left.values[10] * right.values[2] + left.values[14] * right.values[3];
+            output[6] = left.values[2] * right.values[4] + left.values[6] * right.values[5] + left.values[10] * right.values[6] + left.values[14] * right.values[7];
+            output[10] = left.values[2] * right.values[8] + left.values[6] * right.values[9] + left.values[10] * right.values[10] + left.values[14] * right.values[11];
+            output[14] = left.values[2] * right.values[12] + left.values[6] * right.values[13] + left.values[10] * right.values[14] + left.values[14] * right.values[15];
+            output[3] = left.values[3] * right.values[0] + left.values[7] * right.values[1] + left.values[11] * right.values[2] + left.values[15] * right.values[3];
+            output[7] = left.values[3] * right.values[4] + left.values[7] * right.values[5] + left.values[11] * right.values[6] + left.values[15] * right.values[7];
+            output[11] = left.values[3] * right.values[8] + left.values[7] * right.values[9] + left.values[11] * right.values[10] + left.values[15] * right.values[11];
+            output[15] = left.values[3] * right.values[12] + left.values[7] * right.values[13] + left.values[11] * right.values[14] + left.values[15] * right.values[15];
             return new Matrix4f(output);
-        }
+        } // ZMIENIONE
 
         public static Vector4 operator * (Matrix4f left, Vector4 right){
             return new Vector4(left.values[0] * right.x + left.values[1] * right.y + left.values[2] * right.z + left.values[3] * right.w,
                                left.values[4] * right.x + left.values[5] * right.y + left.values[6] * right.z + left.values[7] * right.w,
                                left.values[8] * right.x + left.values[9] * right.y + left.values[10] * right.z + left.values[11] * right.w,
                                left.values[12] * right.x + left.values[13] * right.y + left.values[14] * right.z + left.values[15] * right.w);
-        }
+        } // NIE ZMIENIONE
 
         public static Matrix4f operator + (Matrix4f left, Matrix4f right){
             float[] output = new float[16];
@@ -121,7 +122,7 @@ namespace CoreEngine {
             output[14] = left.values[14] + right.values[14];
             output[15] = left.values[15] + right.values[15];
             return new Matrix4f(output);
-        }
+        } 
 
         public static Matrix4f operator * (Matrix4f left, float right){
             float[] output = new float[16];
@@ -142,7 +143,7 @@ namespace CoreEngine {
             output[14] = left.values[14] * right;
             output[15] = left.values[15] * right;
             return new Matrix4f(output);
-        }
+        } 
 
         public static Matrix4f operator * (float left, Matrix4f right){
             float[] output = new float[16];
@@ -163,6 +164,6 @@ namespace CoreEngine {
             output[14] = right.values[14] * left;
             output[15] = right.values[15] * left;
             return new Matrix4f(output);
-        }
+        } 
     }
 }
